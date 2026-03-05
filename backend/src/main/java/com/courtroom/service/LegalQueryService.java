@@ -4,6 +4,7 @@ import com.courtroom.dto.QueryRequest;
 import com.courtroom.dto.QueryResponse;
 import com.courtroom.entity.HitlReview;
 import com.courtroom.entity.LegalQuery;
+import com.courtroom.exception.EntityNotFoundException;
 import com.courtroom.repository.HitlReviewRepository;
 import com.courtroom.repository.LegalQueryRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,7 +76,7 @@ public class LegalQueryService {
 
     public QueryResponse getQueryById(Long id) throws Exception {
         LegalQuery query = queryRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Query not found: " + id));
+            .orElseThrow(() -> new EntityNotFoundException("Query not found: " + id));
         Map<String, Object> mindMapData = null;
         if (query.getMindMapData() != null) {
             mindMapData = objectMapper.readValue(query.getMindMapData(), Map.class);

@@ -4,6 +4,7 @@ import com.courtroom.dto.ReviewRequest;
 import com.courtroom.entity.HitlReview;
 import com.courtroom.entity.LegalCorpus;
 import com.courtroom.entity.LegalQuery;
+import com.courtroom.exception.EntityNotFoundException;
 import com.courtroom.repository.HitlReviewRepository;
 import com.courtroom.repository.LegalCorpusRepository;
 import com.courtroom.repository.LegalQueryRepository;
@@ -34,7 +35,7 @@ public class HitlService {
 
     public HitlReview submitReview(ReviewRequest request) {
         LegalQuery query = queryRepository.findById(request.getQueryId())
-            .orElseThrow(() -> new RuntimeException("Query not found: " + request.getQueryId()));
+            .orElseThrow(() -> new EntityNotFoundException("Query not found: " + request.getQueryId()));
 
         // Find pending review for this query
         HitlReview review = hitlReviewRepository.findByStatusOrderByCreatedAtDesc(HitlReview.ReviewStatus.PENDING)

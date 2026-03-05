@@ -19,8 +19,10 @@
 /home/runner/work/digital-courtroom-ai/digital-courtroom-ai/backend/src/main/java/com/courtroom/service/HitlService.java
 /home/runner/work/digital-courtroom-ai/digital-courtroom-ai/backend/src/main/java/com/courtroom/service/MockTrialService.java
 /home/runner/work/digital-courtroom-ai/digital-courtroom-ai/backend/src/main/java/com/courtroom/dto/TrialCreateRequest.java
+/home/runner/work/digital-courtroom-ai/digital-courtroom-ai/backend/src/main/java/com/courtroom/exception/EntityNotFoundException.java
 /home/runner/work/digital-courtroom-ai/digital-courtroom-ai/backend/src/main/java/com/courtroom/config/DataInitializer.java
 /home/runner/work/digital-courtroom-ai/digital-courtroom-ai/backend/src/main/java/com/courtroom/service/LegalQueryService.java
 /home/runner/work/digital-courtroom-ai/digital-courtroom-ai/backend/src/main/java/com/courtroom/dto/QueryRequest.java
 /home/runner/work/digital-courtroom-ai/digital-courtroom-ai/backend/src/main/java/com/courtroom/entity/LegalQuery.java
+/home/runner/work/digital-courtroom-ai/digital-courtroom-ai/backend/src/main/java/com/courtroom/exception/GlobalExceptionHandler.java
 /home/runner/work/digital-courtroom-ai/digital-courtroom-ai/backend/src/main/java/com/courtroom/repository/MockTrialRepository.java

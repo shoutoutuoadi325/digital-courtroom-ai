@@ -5,6 +5,7 @@ com/courtroom/entity/MockTrial.class
 com/courtroom/repository/HitlReviewRepository.class
 com/courtroom/service/QueryRoutingService.class
 com/courtroom/controller/HitlController.class
+com/courtroom/exception/EntityNotFoundException.class
 com/courtroom/entity/LegalQuery$QueryStatus.class
 com/courtroom/entity/LegalCorpus.class
 com/courtroom/service/LegalQueryService.class
@@ -14,6 +15,7 @@ com/courtroom/entity/LegalQuery$QueryType.class
 com/courtroom/dto/TrialMessageRequest.class
 com/courtroom/entity/MockTrial$UserRole.class
 com/courtroom/controller/MockTrialController.class
+com/courtroom/exception/GlobalExceptionHandler.class
 com/courtroom/service/MockTrialService.class
 com/courtroom/dto/QueryRequest.class
 com/courtroom/Application.class

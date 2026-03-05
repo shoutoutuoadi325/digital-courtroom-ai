@@ -4,9 +4,12 @@ import com.courtroom.dto.TrialCreateRequest;
 import com.courtroom.dto.TrialMessageRequest;
 import com.courtroom.entity.MockTrial;
 import com.courtroom.entity.TrialMessage;
+import com.courtroom.exception.EntityNotFoundException;
 import com.courtroom.repository.MockTrialRepository;
 import com.courtroom.repository.TrialMessageRepository;
 import com.courtroom.service.MockTrialService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,8 @@ import java.util.Map;
 @RequestMapping("/api/trials")
 @CrossOrigin(origins = "http://localhost:5173")
 public class MockTrialController {
+
+    private static final Logger log = LoggerFactory.getLogger(MockTrialController.class);
 
     @Autowired
     private MockTrialRepository trialRepository;
@@ -35,6 +40,7 @@ public class MockTrialController {
         trial.setCaseDescription(request.getCaseDescription());
         trial.setUserRole(MockTrial.UserRole.valueOf(request.getUserRole()));
         trial = trialRepository.save(trial);
+        log.info("Mock trial created: id={}, role={}", trial.getId(), trial.getUserRole());
 
         // Generate opening statement from judge
         trialService.processUserMessage(trial, "Trial begins", "STATEMENT");
@@ -50,7 +56,7 @@ public class MockTrialController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getTrial(@PathVariable Long id) {
         MockTrial trial = trialRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Trial not found: " + id));
+            .orElseThrow(() -> new EntityNotFoundException("Trial not found: " + id));
         List<TrialMessage> messages = messageRepository.findByTrialIdOrderByCreatedAtAsc(id);
 
         Map<String, Object> result = new HashMap<>();
@@ -64,7 +70,7 @@ public class MockTrialController {
             @PathVariable Long id,
             @RequestBody TrialMessageRequest request) {
         MockTrial trial = trialRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Trial not found: " + id));
+            .orElseThrow(() -> new EntityNotFoundException("Trial not found: " + id));
 
         // Save user message
         TrialMessage userMsg = new TrialMessage();
@@ -90,7 +96,7 @@ public class MockTrialController {
     @PutMapping("/{id}/stage")
     public ResponseEntity<MockTrial> advanceStage(@PathVariable Long id) {
         MockTrial trial = trialRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Trial not found: " + id));
+            .orElseThrow(() -> new EntityNotFoundException("Trial not found: " + id));
 
         String nextStage = switch (trial.getCurrentStage()) {
             case "OPENING" -> "EVIDENCE";
