@@ -44,12 +44,29 @@
 
             <!-- Voice Input -->
             <div v-if="activeTab === 'voice'" class="tab-content">
+              <div class="form-group">
+                <label class="form-label">Recognition Language</label>
+                <select v-model="voiceLang" class="form-control">
+                  <option value="">Auto-detect (Browser Default)</option>
+                  <option value="zh-CN">Chinese Mandarin (zh-CN)</option>
+                  <option value="zh-TW">Chinese Traditional (zh-TW)</option>
+                  <option value="yue-Hant-HK">Cantonese (yue-Hant-HK)</option>
+                  <option value="en-US">English US (en-US)</option>
+                  <option value="en-GB">English UK (en-GB)</option>
+                  <option value="ja-JP">Japanese (ja-JP)</option>
+                  <option value="ko-KR">Korean (ko-KR)</option>
+                  <option value="fr-FR">French (fr-FR)</option>
+                  <option value="de-DE">German (de-DE)</option>
+                  <option value="es-ES">Spanish (es-ES)</option>
+                  <option value="ar-SA">Arabic (ar-SA)</option>
+                </select>
+              </div>
               <div class="voice-area">
                 <button class="voice-btn" :class="{recording: isRecording}"
                   @click="toggleRecording">
                   {{ isRecording ? '⏹️ Stop Recording' : '🎙️ Start Recording' }}
                 </button>
-                <p class="voice-hint">{{ isRecording ? 'Recording... Speak your legal question clearly.' : 'Click to start voice recording. Supports Chinese regional dialects.' }}</p>
+                <p class="voice-hint">{{ isRecording ? 'Recording... Speak your legal question clearly.' : 'Click to start voice recording. Supports multiple languages and regional dialects.' }}</p>
                 <div v-if="voiceTranscript" class="voice-transcript">
                   <strong>Transcript:</strong> {{ voiceTranscript }}
                 </div>
@@ -154,6 +171,7 @@ const queryText = ref('')
 const category = ref('')
 const isRecording = ref(false)
 const voiceTranscript = ref('')
+const voiceLang = ref('')
 const supportsVoice = ref(true)
 const selectedFile = ref(null)
 const loading = ref(false)
@@ -204,7 +222,7 @@ function startRecording() {
     return
   }
   recognition = new SpeechRecognition()
-  recognition.lang = 'zh-CN'
+  recognition.lang = voiceLang.value || navigator.language || 'zh-CN'
   recognition.interimResults = true
   recognition.continuous = true
 
